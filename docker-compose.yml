@@ -1,5 +1,6 @@
 services:
   app:
+    image: blogapplication1:latest
     container_name: nodejs-app
     restart: always
     build: .
