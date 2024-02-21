@@ -1,26 +1,17 @@
-# Base Stage
-FROM node:14 AS base
+# Use an official Node runtime as a parent image
+FROM node:latest
+
+# Set the working directory in the container
 WORKDIR /usr/src/app
-COPY package*.json ./
-RUN npm install
+
+# Copy the current directory contents into the container at /usr/src/app
 COPY . .
 
+# Install any needed packages specified in package.json
+RUN npm install
 
-# Development Stage
-FROM base AS development
-ENV NODE_ENV=development
-RUN npm install -g nodemon
-CMD ["nodemon", "app.js"]
+# Make port 3000 available to the world outside this container
+EXPOSE 3000
 
-
-# Testing Stage
-FROM base AS test
-ENV NODE_ENV=test
-CMD ["npm", "test"]
-
-
-# Production Stage
-FROM base AS production
-ENV NODE_ENV=production
-RUN npm prune --production
+# Run app.js when the container launches
 CMD ["node", "app.js"]
