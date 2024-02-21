@@ -10,17 +10,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(blogRouter);
 
 //configure mongoose - > mongodb://localhost:27017/
-mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost:27017/CRUD",
-  
-  (err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("Connected to MongoDB");
-    }
-  }
-);
+const uri = process.env.MONGODB_URI || "mongodb://localhost:27017/CRUD";
+mongoose.connect(uri)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.error("Error connecting to MongoDB:", err));
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
